@@ -76,7 +76,7 @@ end process proc1;
 Button_Right <= '0' after 20 ns;
 
 --Button Pressed
-Button_Mid <= '1' after 500 ns; --300ns was not enough
+Button_Mid <= '1' after 5000 ms; --300ns was not enough
 
 
 end Behavioral;

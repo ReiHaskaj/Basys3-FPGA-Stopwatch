@@ -28,7 +28,7 @@ entity top_stop_timer is
            Button_Right : IN STD_LOGIC; --reset, push right button.
            LED_Start : OUT STD_LOGIC; --LED signaling the start.
            Anode : OUT STD_LOGIC_VECTOR(3 downto 0); --display on the monitor.
-           Left_Segment : OUT STD_LOGIC_VECTOR(6 downto 0); --display on the 7-segment display.
+           --Left_Segment : OUT STD_LOGIC_VECTOR(6 downto 0); --display on the 7-segment display.
            Right_Segment : OUT STD_LOGIC_VECTOR(6 downto 0)); --display on the 7-segment display.
 end top_stop_timer;
 
@@ -107,12 +107,14 @@ begin
 --Instatiations
 --change the clk on the right for the d_counter and u_counter to tick.
 divider :       clk_divider         PORT MAP (clk => clk, res => Button_Right, tick => tick);
-d_counter :     down_counter        PORT MAP (clk => clk, res => Button_Right, out_val => OPEN, ready => ready);
+d_counter :     down_counter        PORT MAP (clk => tick, res => Button_Right, out_val => OPEN, ready => ready);
 controller :    control             PORT MAP (clk => clk, res => Button_Right, ready => ready, Button_Mid => Button_Mid, Start => Start);
-u_counter :     up_counter          PORT MAP (clk => clk, Start => Start, Button_Mid => Button_Mid, out_val => value); --second position was res => Button_Right.
+u_counter :     up_counter          PORT MAP (clk => tick, Start => Start, Button_Mid => Button_Mid, out_val => value); --second position was res => Button_Right.
 fb_register :   five_bit_reg        PORT MAP (clk => clk, res => Button_Right, d => value, q => value_out);
 arithmetics:    display_arithmetics PORT MAP (value => value_out, point => OPEN, left => left, right => right);
-display :       display_logic       PORT MAP (left => left, right => right, seg_left => Left_Segment, seg_right => Right_Segment);
+display :       display_logic       PORT MAP (left => left, right => right, 
+                                                --seg_left => Left_Segment, 
+                                                seg_right => Right_Segment);
 
 --Hardwire the 7-segment display to use the first and second digits.
 Anode <= "1100";

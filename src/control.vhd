@@ -96,6 +96,9 @@ end process NextStateLogic;
 
 
 --OutputLogic
+--Update : Since the counting on the up_counter module depends on the Start signal and the current_state is updated 
+--         with the next_state on the rising_edge of the clock, then we can actually set the Start to be '1' when the 
+--         next_state is LED. However, this small delay will be ignored for now.
 OutputLogic : process(current_state)
 begin
 

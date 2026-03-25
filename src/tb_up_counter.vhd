@@ -67,7 +67,7 @@ end process proc1;
 
 --Handling the restart signal
 --res <= '0' after 20 ns;
-Start <= '1' after 500 ns;
+Start <= '1' after 505 ns;
 
 --Handling the Start and Button_Mid signals
 proc2 : process

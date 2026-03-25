@@ -33,6 +33,7 @@ end display_logic;
 architecture Behavioral of display_logic is
 
 --Depending on the left and right numbers, some logic is needed to present these in the 7-segment-display.
+--Update : Segment is ON on 0 -> flip the bits for both processes.
 
 begin
 
@@ -40,10 +41,10 @@ proc1 : process(left)
 begin
 
 case (left) is
-    when "00" =>    seg_left <= "1111110"; --display 0
-    when "01" =>    seg_left <= "0110000"; --display 1
-    when "10" =>    seg_left <= "1101101"; --display 2
-    when others =>  seg_left <= "1000111"; --display F
+    when "00" =>    seg_left <= "0000001"; --display 0
+    when "01" =>    seg_left <= "1001111"; --display 1
+    when "10" =>    seg_left <= "0010010"; --display 2 1101101
+    when others =>  seg_left <= "0111000"; --display F 1000111
 end case;
 
 end process proc1;
@@ -52,17 +53,17 @@ proc2 : process(right)
 begin
 
 case (right) is
-    when "0000" =>    seg_right <= "1111110"; --display 0
-    when "0001" =>    seg_right <= "0110000"; --display 1
-    when "0010" =>    seg_right <= "1101101"; --display 2
-    when "0011" =>    seg_right <= "1111001"; --display 3
-    when "0100" =>    seg_right <= "0110011"; --display 4
-    when "0101" =>    seg_right <= "1011011"; --display 5
-    when "0110" =>    seg_right <= "1011111"; --display 6
-    when "0111" =>    seg_right <= "1110000"; --display 7
-    when "1000" =>    seg_right <= "1111111"; --display 8
-    when "1001" =>    seg_right <= "1110011"; --display 9
-    when others =>    seg_right <= "1000111"; --display F
+    when "0000" =>    seg_right <= "0000001"; --display 0
+    when "0001" =>    seg_right <= "1001111"; --display 1
+    when "0010" =>    seg_right <= "0010010"; --display 2
+    when "0011" =>    seg_right <= "0000110"; --display 3 1111001
+    when "0100" =>    seg_right <= "1001100"; --display 4 0110011
+    when "0101" =>    seg_right <= "0100100"; --display 5 1011011
+    when "0110" =>    seg_right <= "0100000"; --display 6 1011111
+    when "0111" =>    seg_right <= "0001111"; --display 7 1110000
+    when "1000" =>    seg_right <= "0000000"; --display 8 1111111
+    when "1001" =>    seg_right <= "0001100"; --display 9 1110011
+    when others =>    seg_right <= "0111000"; --display F
 end case;
 
 end process proc2;
