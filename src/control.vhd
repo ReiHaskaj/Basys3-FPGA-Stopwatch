@@ -70,25 +70,40 @@ case (current_state) is
 
     when idle => next_state <= waiting;
     
-    when waiting => if (ready = '0' and Button_Mid = '0') then
-                        next_state <= waiting;
-                    elsif (ready = '1' and Button_Mid = '0') then
-                        next_state <= LED;
-                    else
-                        next_state <= result;
-                    end if;
+    --Update : The state transitions from the waiting state should not depend
+    --         on the Button_Mid
+    --Before:
     
+--    when waiting => if (ready = '0' and Button_Mid = '0') then
+--                        next_state <= waiting;
+--                    elsif (ready = '1' and Button_Mid = '0') then
+--                        next_state <= LED;
+--                    else
+--                        next_state <= waiting; --was result
+--                    end if;
+
+    when waiting => if (ready = '0') then
+                        next_state <= waiting;
+                    else
+                        next_state <= LED;
+                    end if;
+                        
     when LED => if (Button_Mid = '0') then
                     next_state <= LED;
                 else 
                     next_state <= result;
                 end if;
-          
-    when result => if (Button_Mid = '0') then
-                       next_state <= idle;
-                   else
-                       next_state <= result;
-                   end if;
+    
+    --Update: There is no reason to keep staying at result state for the moment.
+    --Before:      
+--    when result => if (Button_Mid = '0') then
+--                       next_state <= idle;
+--                   else
+--                       next_state <= result;
+--                   end if;
+
+    --Update : Try to get stuck at result.
+    when result => next_state <= result; --was idle.
      
 end case;
 
@@ -107,7 +122,7 @@ case (current_state) is
     when idle =>    Start <= '0'; done <= '0';
     when waiting => Start <= '0'; done <= '0';
     when LED =>     Start <= '1'; done <= '0';
-    when result =>  Start <= '0'; done <= '1';
+    when result =>  Start <= '1'; done <= '1'; --Start was '0' earlier.
     
 end case;
 

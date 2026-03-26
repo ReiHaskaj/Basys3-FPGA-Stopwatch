@@ -28,6 +28,9 @@ end tb_clk_divider;
 architecture Behavioral of tb_clk_divider is
 
 component clk_divider is
+
+    Generic (Time_Unit : in INTEGER);
+    
     Port ( clk : in STD_LOGIC;
            res : in STD_LOGIC;
            tick : out STD_LOGIC);
@@ -39,7 +42,7 @@ signal tick : STD_LOGIC;
 
 begin
 
-dut : clk_divider PORT MAP (clk => clk, res => res, tick => tick);
+dut : clk_divider GENERIC MAP (9999999) PORT MAP (clk => clk, res => res, tick => tick);
 
 --Clock generation
 --10 ns is the clock period of the Basys3 board.

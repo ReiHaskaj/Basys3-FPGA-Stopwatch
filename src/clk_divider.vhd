@@ -17,13 +17,22 @@
 -- Additional Comments:
 -- 
 ----------------------------------------------------------------------------------
+--Update 1 : This divider can be used to generate the ticks every 0.1 seconds.
+--This is used by both of the up_counter and down_counter modules.
 
+--Update 2 : In order to reuse this same module for generating ticks every s, ms, us, ns, or 
+--any other time units, we need a generic.
+--The decisive number of cycles is presented in line __. Depending on the desired sampling speed,
+--this number can change. -> use generic for this module.
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity clk_divider is
+
+    Generic (Time_Unit : in INTEGER);
+    
     Port ( clk : in STD_LOGIC;
            res : in STD_LOGIC;
            tick : out STD_LOGIC);
@@ -52,7 +61,7 @@ begin
                 counter_val <= (others => '0');
                 tick <= '0';
                 else
-                    if(unsigned(counter_val) = 9999999) then
+                    if(unsigned(counter_val) = (Time_Unit - 1)) then --was previosly 9999999 for a tick every 0.1 s.
                         counter_val <= (others => '0');
                         tick <= '1';
                     else

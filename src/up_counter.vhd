@@ -61,14 +61,14 @@ begin
     elsif (rising_edge(clk)) then
         if(cnt = "10011") then
             --cnt <= (others => '0'); --before
-            cnt <= "10011"; --hold the value when it is reached
+            cnt <= "10011"; --hold the max value (19) when it is reached.
         else
             cnt <= std_logic_vector(unsigned(cnt) + 1);
         end if;
      end if;
    
    
---This was the previous version with a synchronous Start / reset /signal.    
+--This was the previous version with a synchronous Start / reset signal.    
 --    if(rising_edge(clk)) then
 --        if(Start = '0') then --was res previously and it was being evaluated at the value '1'.
 --            cnt <= (others => '0');
