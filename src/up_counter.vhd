@@ -49,6 +49,9 @@ architecture Behavioral of up_counter is
 
 --Update 3 : The counter keeps resetting when it reaches the decimal value 19. I want to actually hold this value. 
 
+--Update 4 : Since I dedicated 5 bits for counting, I will take advantage and keep on counting further on.
+--           "11111" is equivalent to 2^5 -1 = 32 -1 = 31.
+
 signal cnt : STD_LOGIC_VECTOR(4 downto 0);
 
 begin
@@ -59,9 +62,9 @@ begin
     if (Start = '0') then
         cnt <= (others => '0');
     elsif (rising_edge(clk)) then
-        if(cnt = "10011") then
+        if(cnt = "11111") then --both this value and the one underneath were "10011" (19 decimal).
             --cnt <= (others => '0'); --before
-            cnt <= "10011"; --hold the max value (19) when it is reached.
+            cnt <= "11111"; --hold the max value when it is reached.
         else
             cnt <= std_logic_vector(unsigned(cnt) + 1);
         end if;

@@ -98,7 +98,7 @@ end component;
 
 component display_arithmetics is
     Port ( value : in STD_LOGIC_VECTOR (4 downto 0);
-           point : out STD_LOGIC;
+           --point : out STD_LOGIC;
            left : out STD_LOGIC_VECTOR (1 downto 0);
            right : out STD_LOGIC_VECTOR (3 downto 0));
 end component;
@@ -166,11 +166,9 @@ fb_register :   five_bit_reg        PORT MAP (clk => clk, res => Button_Right, d
 cap_regiser :   capture_register    PORT MAP (clk => clk, res => Button_Right, en => Button_Mid, d => value, q => capt_value_out);
 mux_one :       mux2x1              PORT MAP (sel => done, in1 => value_out, in2 => capt_value_out, output => muxed_value_out);
 
-arithmetics:    display_arithmetics PORT MAP (value => muxed_value_out, point => OPEN, left => left, right => right);
-display :       display_logic       PORT MAP (left => left, right => right, 
-                                                --seg_left => Left_Segment, 
-                                                seg_left => seg_left,
-                                                seg_right => seg_right);
+arithmetics:    display_arithmetics PORT MAP (value => muxed_value_out, left => left, right => right);
+display :       display_logic       PORT MAP (left => left, right => right, seg_left => seg_left, seg_right => seg_right);
+
 divider_two :   clk_divider         GENERIC MAP (99999) PORT MAP (clk => clk, res => Button_Right, tick => sel_tick);
 selector :      multiplexer_select  PORT MAP (clk => sel_tick, res => Button_Right, val => val); --change clk right to sel_tick.
 mux_two :       multiplexer_2x1     PORT MAP (sel => val, in1 => seg_right, in2 => seg_left, dp => dp, Anode => Anode, output => Segment);

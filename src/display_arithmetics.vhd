@@ -25,7 +25,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity display_arithmetics is
     Port ( value : in STD_LOGIC_VECTOR (4 downto 0);
-           point : out STD_LOGIC;
+           --point : out STD_LOGIC;
            left : out STD_LOGIC_VECTOR (1 downto 0);
            right : out STD_LOGIC_VECTOR (3 downto 0));
 end display_arithmetics;
@@ -50,15 +50,8 @@ rightt <= std_logic_vector(unsigned(value) mod 10);
 --rightt = value - leftt * 10.
 --In this case a process would be needed, since the leftt needs to be calculated first and then the rightt would depend on that.
 
---Handling the point signal.
-proc1 : process(rightt, leftt)
-begin
-if (rightt /= "00000" or leftt /= "00000") then
-    point <= '1';
-else
-    point <= '0';
-end if;    
-end process proc1;
+--Update: Redundant logic on the dp signal removed.
+--It is now handled in module multiplexer_2x1.
 
 --Assigning the outputs:
 --Only 2 bits needed to represent the left number since limit of 20 time units is set -> left is either 0, 1, or 2.

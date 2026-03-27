@@ -33,7 +33,12 @@ end display_logic;
 architecture Behavioral of display_logic is
 
 --Depending on the left and right numbers, some logic is needed to present these in the 7-segment-display.
---Update : Segment is ON on 0 -> flip the bits for both processes.
+
+--Update 1 : Segment is ON on 0 -> flip the bits for both processes.
+--The 7-bit vectors correspond to [g, f, e, d, c, b, a].
+
+--Update 2 : Due to the changes in the up_counter module, the value 31 can be reached on the left segment.
+--The left case needs to be updated accordingly.
 
 begin
 
@@ -44,6 +49,7 @@ case (left) is
     when "00" =>    seg_left <= "1000000"; --display 0
     when "01" =>    seg_left <= "1111001"; --display 1
     when "10" =>    seg_left <= "0100100"; --display 2 
+    when "11" =>    seg_left <= "0110000"; --display 3 
     when others =>  seg_left <= "0001110"; --display F 
 end case;
 

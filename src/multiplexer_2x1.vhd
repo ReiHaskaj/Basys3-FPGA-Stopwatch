@@ -35,8 +35,11 @@ architecture Behavioral of multiplexer_2x1 is
 
 --This multiplexer module decides which of the digits in the 7-segment display will be turned
 --as well as the numbers it will show (seconds or 1/10 of seconds).
+--A bit value of '0' corresponds to that unit being ON.
 --Digit 4 : 1/10 seconds <=> Anode is "1110" and in1 is right_segment.
 --Digit 3 : seconds <=> Anode is "1101" and in2 is left_segment.
+
+--Update : dp signal handling in this module instead of in the display_arithmetics module.
 
 begin
 

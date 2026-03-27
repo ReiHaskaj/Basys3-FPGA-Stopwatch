@@ -28,6 +28,7 @@ entity control is
            ready : in STD_LOGIC;
            Button_Mid : in STD_LOGIC;
            Start : out STD_LOGIC;
+           --false_input : out STD_LOGIC;
            done : out STD_LOGIC); --new signal, will be used in the up_counter module as an enable.
 end control;
 
@@ -83,10 +84,10 @@ case (current_state) is
 --                    end if;
 
     when waiting => if (ready = '0') then
-                        next_state <= waiting;
-                    else
-                        next_state <= LED;
-                    end if;
+                            next_state <= waiting;
+                        else
+                            next_state <= LED;
+                        end if;
                         
     when LED => if (Button_Mid = '0') then
                     next_state <= LED;
@@ -122,7 +123,7 @@ case (current_state) is
     when idle =>    Start <= '0'; done <= '0';
     when waiting => Start <= '0'; done <= '0';
     when LED =>     Start <= '1'; done <= '0';
-    when result =>  Start <= '1'; done <= '1'; --Start was '0' earlier.
+    when result =>  Start <= '1'; done <= '1';  --Start was '0' earlier.
     
 end case;
 
